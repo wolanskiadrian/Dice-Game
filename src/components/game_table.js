@@ -17,10 +17,13 @@ class GameTable extends Component {
     }
 
     render() {
+        console.log(this.props);
+
         return (
             <table className="table table-hover">
                 <thead>
                     <tr>
+                        <th>Imię</th>
                         <th>jedynki</th>
                         <th>dwójki</th>
                         <th>trójki</th>
@@ -40,7 +43,7 @@ class GameTable extends Component {
                 </thead>
                 <tbody>
                     {/*<Rows players={this.props.players} />*/}
-                    {this.getRows(this.props.players, this.props.dice)}
+                    {this.getRows(this.props.players, this.props.dice, this.props.playersNames)}
                 </tbody>
             </table>
         )
@@ -74,12 +77,15 @@ class GameTable extends Component {
 
     }
 
-    getRows(players, dice) {
+    getRows(players, dice, names) {
         let rows = [];
 
         for(let i = 0; i < players; i++) {
             rows.push(
                 <tr key={i}>
+                    <th>
+                        {/*{this.names[i]}*/}
+                    </th>
                     <th>
                         <button type="button" className="btn btn-primary">{dice.jedynki}</button>
                     </th>

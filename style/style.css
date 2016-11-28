@@ -5,3 +5,7 @@
 button {
     min-width: 60px;
 }
+
+.players-count{
+    margin-bottom: 20px;
+}
