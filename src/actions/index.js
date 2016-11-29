@@ -11,3 +11,10 @@ export function setPlayersNames(playersNames) {
         payload: playersNames
     }
 }
+
+export function setGameObject(gameArray) {
+    return {
+        type: 'SET_GAME_OBJECT',
+        payload: gameArray
+    }
+}

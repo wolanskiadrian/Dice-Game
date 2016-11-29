@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setGameObject } from '../actions/index'
 // import Rows from './game_table_player_rows';
 
 class GameTable extends Component {
@@ -8,13 +10,14 @@ class GameTable extends Component {
         super(props);
 
         this.state = {
-            game: [],
+            // game: [],
             playersNames: []
         }
     };
 
     componentWillMount() {
-        this.setState({game: this.makePlayersGameObjects(this.props.players)});
+        // this.setState({game: this.makePlayersGameObjects(this.props.players)});
+        this.makePlayersGameObjects(this.props.players);
     }
 
     render() {
@@ -64,7 +67,9 @@ class GameTable extends Component {
             malys: null,
             duzys: null,
             general: null,
-            suma: null
+            suma: null,
+            nowPlay: false,
+            diceThrows: 0
         };
 
         for(let i = 0; i < playersNo; i++) {
@@ -72,9 +77,9 @@ class GameTable extends Component {
             game.push(copy);
         }
 
-        console.log(game);
+        this.props.setGameObject(game);
 
-        return game;
+        // return game;
 
     }
 
@@ -141,8 +146,13 @@ class GameTable extends Component {
 function mapStateToProps(state) {
     return {
         dice: state.dice,
-        playersNames: state.playersNames
+        playersNames: state.playersNames,
+        game: state.game
     }
 }
 
-export default connect(mapStateToProps)(GameTable)
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({setGameObject: setGameObject}, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameTable)
