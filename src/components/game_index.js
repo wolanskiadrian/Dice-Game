@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { setPlayersNames } from '../actions/index'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 class GameIndex extends Component {
     constructor(props) {
@@ -7,7 +10,7 @@ class GameIndex extends Component {
 
         this.state = {
             players: 0,
-            playersNames: []
+            // playersNames: []
         };
 
         this.playersNames = [];
@@ -33,8 +36,7 @@ class GameIndex extends Component {
     onInputChangePN(name, nr) {
         this.playersNames[nr] = name;
         this.setState({playersNames: this.playersNames});
-
-        console.log(this.state);
+        this.props.setPlayersNames(this.playersNames);
     }
 
     mapPlayers() {
@@ -67,4 +69,10 @@ class GameIndex extends Component {
     }
 }
 
-export default GameIndex;
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({setPlayersNames: setPlayersNames}, dispatch)
+}
+
+export default connect(null, mapDispatchToProps)(GameIndex);
+
+// export default GameIndex;

@@ -1,7 +1,13 @@
 export function diceCatch(dice) {
-    // selectBook is an ActionCreator, it needs to return an action, an object with a type property.
     return {
         type: 'DICE_THROW',
         payload: dice
     };
+}
+
+export function setPlayersNames(playersNames) {
+    return {
+        type: 'SET_PLAYERS_NAMES',
+        payload: playersNames
+    }
 }

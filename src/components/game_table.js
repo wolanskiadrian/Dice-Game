@@ -8,7 +8,8 @@ class GameTable extends Component {
         super(props);
 
         this.state = {
-            game: []
+            game: [],
+            playersNames: []
         }
     };
 
@@ -84,7 +85,7 @@ class GameTable extends Component {
             rows.push(
                 <tr key={i}>
                     <th>
-                        {/*{this.names[i]}*/}
+                        {names[i]}
                     </th>
                     <th>
                         <button type="button" className="btn btn-primary">{dice.jedynki}</button>
@@ -139,7 +140,8 @@ class GameTable extends Component {
 
 function mapStateToProps(state) {
     return {
-        dice: state.dice
+        dice: state.dice,
+        playersNames: state.playersNames
     }
 }
 

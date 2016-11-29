@@ -18,7 +18,7 @@ export default class Game extends Component {
     render() {
         return (
             <div>
-                <GameTable players={this.state.players} />
+                <GameTable players={this.state.players}/>
                 <Dice />
             </div>
         )
