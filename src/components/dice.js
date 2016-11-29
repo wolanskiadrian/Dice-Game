@@ -9,8 +9,11 @@ class Dice extends Component {
         super(props);
 
         this.state = {
-            dice: []
-        }
+            dice: [],
+            diceBlocked: false
+        };
+
+        this.currentPlayerNo = 0;
     }
 
     componentWillMount() {
@@ -18,17 +21,19 @@ class Dice extends Component {
     }
 
     render() {
+        console.log(this.state);
+
         return (
             <div>
                 <div className="btn-group">{this.state.dice.map( this.diceNumbers )}</div>
-                <button type="button" className="btn btn-primary" onClick={ this.diceThrow.bind(this) }>Rzuć</button>
+                <button disabled={this.state.diceBlocked} type="button" className="btn btn-primary" onClick={ this.diceThrow.bind(this) }>Rzuć</button>
             </div>
         )
     }
 
     diceNumbers(number, index) {
         return (
-            <button key={index} className="btn btn-danger">{number}</button>
+            <button key={index} onClick={this.saveNumber(index)} className="btn btn-danger">{number}</button>
         )
     }
 
@@ -36,9 +41,36 @@ class Dice extends Component {
         let diceTemp = [];
         let throwValues = {};
 
-        for(let i = 0; i < 5; i++){
-            let dTemp = Math.floor(Math.random() * 6 ) + 1;
-            diceTemp.push(dTemp);
+        if(this.props.game.length > 0) {
+            let currentPlayer = _.find(this.props.game, function (player) {
+                return player.nowPlay == true;
+            });
+
+            if(currentPlayer.diceThrows < 2) {
+                currentPlayer.diceThrows++;
+                for (let i = 0; i < 5; i++) {
+                    let dTemp = Math.floor(Math.random() * 6) + 1;
+                    diceTemp.push(dTemp);
+                }
+            } else {
+                this.setState({diceBlocked: true});
+                // currentPlayer.diceThrows = 0;
+                // currentPlayer.nowPlay = false;
+                //
+                // if(this.currentPlayerNo === this.props.game.length - 1) {
+                //     console.log(this.props.game[0]);
+                //     this.props.game[0].nowPlay = true;
+                //     this.currentPlayerNo = 0;
+                // } else {
+                //     this.currentPlayerNo++;
+                //     this.props.game[this.currentPlayerNo].nowPlay = true;
+                // }
+                //
+                // for (let i = 0; i < 5; i++) {
+                //     let dTemp = Math.floor(Math.random() * 6) + 1;
+                //     diceTemp.push(dTemp);
+                // }
+            }
         }
 
         this.setState({dice: diceTemp});
@@ -243,7 +275,10 @@ class Dice extends Component {
 }
 
 function mapStateToProps(state) {
-    return { dice: state.dice }
+    return {
+        dice: state.dice,
+        game: state.game
+    }
 }
 
 function mapDispatchToProps(dispatch) {

@@ -10,14 +10,14 @@ class GameTable extends Component {
         super(props);
 
         this.state = {
-            // game: [],
+            game: [],
             playersNames: []
         }
     };
 
     componentWillMount() {
-        // this.setState({game: this.makePlayersGameObjects(this.props.players)});
-        this.makePlayersGameObjects(this.props.players);
+        this.setState({game: this.makePlayersGameObjects(this.props.players)});
+        // this.makePlayersGameObjects(this.props.players);
     }
 
     render() {
@@ -45,7 +45,7 @@ class GameTable extends Component {
                 </thead>
                 <tbody>
                     {/*<Rows players={this.props.players} />*/}
-                    {this.getRows(this.props.players, this.props.dice, this.props.playersNames)}
+                    {this.getRows(this.props.players, this.props.dice, this.props.playersNames, this.state.game)}
                 </tbody>
             </table>
         )
@@ -68,22 +68,22 @@ class GameTable extends Component {
             duzys: null,
             general: null,
             suma: null,
-            nowPlay: false,
+            nowPlay: true,
             diceThrows: 0
         };
 
         for(let i = 0; i < playersNo; i++) {
             var copy = _.clone(playerGameObject, true);
+            if(i !=- 0) copy.nowPlay = false;
             game.push(copy);
         }
 
         this.props.setGameObject(game);
-
-        // return game;
+        return game;
 
     }
 
-    getRows(players, dice, names) {
+    getRows(players, dice, names, game) {
         let rows = [];
 
         for(let i = 0; i < players; i++) {
@@ -93,46 +93,46 @@ class GameTable extends Component {
                         {names[i]}
                     </th>
                     <th>
-                        <button type="button" className="btn btn-primary">{dice.jedynki}</button>
+                        <button type="button" disabled={!game[i].nowPlay} className="btn btn-primary">{dice.jedynki}</button>
                     </th>
                     <th>
-                        <button type="button" className="btn btn-primary">{dice.dwojki}</button>
+                        <button type="button" disabled={!game[i].nowPlay} className="btn btn-primary">{dice.dwojki}</button>
                     </th>
                     <th>
-                        <button type="button" className="btn btn-primary">{dice.trojki}</button>
+                        <button type="button" disabled={!game[i].nowPlay} className="btn btn-primary">{dice.trojki}</button>
                     </th>
                     <th>
-                        <button type="button" className="btn btn-primary">{dice.czworki}</button>
+                        <button type="button" disabled={!game[i].nowPlay} className="btn btn-primary">{dice.czworki}</button>
                     </th>
                     <th>
-                        <button type="button" className="btn btn-primary">{dice.piatki}</button>
+                        <button type="button" disabled={!game[i].nowPlay} className="btn btn-primary">{dice.piatki}</button>
                     </th>
                     <th>
-                        <button type="button" className="btn btn-primary">{dice.szostki}</button>
+                        <button type="button" disabled={!game[i].nowPlay} className="btn btn-primary">{dice.szostki}</button>
                     </th>
                     <th>
                         premia
                     </th>
                     <th>
-                        <button type="button" className="btn btn-primary">{dice.trojka}</button>
+                        <button type="button" disabled={!game[i].nowPlay} className="btn btn-primary">{dice.trojka}</button>
                     </th>
                     <th>
-                        <button type="button" className="btn btn-primary">{dice.czworka}</button>
+                        <button type="button" disabled={!game[i].nowPlay} className="btn btn-primary">{dice.czworka}</button>
                     </th>
                     <th>
-                        <button type="button" className="btn btn-primary">{dice.full}</button>
+                        <button type="button" disabled={!game[i].nowPlay} className="btn btn-primary">{dice.full}</button>
                     </th>
                     <th>
-                        <button type="button" className="btn btn-primary">{dice.malys}</button>
+                        <button type="button" disabled={!game[i].nowPlay} className="btn btn-primary">{dice.malys}</button>
                     </th>
                     <th>
-                        <button type="button" className="btn btn-primary">{dice.duzys}</button>
+                        <button type="button" disabled={!game[i].nowPlay} className="btn btn-primary">{dice.duzys}</button>
                     </th>
                     <th>
-                        <button type="button" className="btn btn-primary">{dice.general}</button>
+                        <button type="button" disabled={!game[i].nowPlay} className="btn btn-primary">{dice.general}</button>
                     </th>
                     <th>
-                        <button type="button" className="btn btn-primary">{dice.szansa}</button>
+                        <button type="button" disabled={!game[i].nowPlay} className="btn btn-primary">{dice.szansa}</button>
                     </th>
                     <th>SUMA</th>
                 </tr>
