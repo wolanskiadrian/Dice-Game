@@ -18,8 +18,6 @@ class GameTable extends Component {
     }
 
     render() {
-        console.log(this.props);
-
         return (
             <table className="table table-hover">
                 <thead>
@@ -73,6 +71,8 @@ class GameTable extends Component {
             var copy = _.clone(playerGameObject, true);
             game.push(copy);
         }
+
+        console.log(game);
 
         return game;
 
