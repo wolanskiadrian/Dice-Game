@@ -16,24 +16,22 @@ class Dice extends Component {
         this.currentPlayerNo = 0;
     }
 
-    componentWillMount() {
-        this.diceThrow();
-    }
+    // componentWillMount() {
+    //     this.diceThrow();
+    // }
 
     render() {
-        console.log(this.state);
-
         return (
             <div>
                 <div className="btn-group">{this.state.dice.map( this.diceNumbers )}</div>
-                <button disabled={this.state.diceBlocked} type="button" className="btn btn-primary" onClick={ this.diceThrow.bind(this) }>Rzuć</button>
+                <button disabled={this.state.diceBlocked} type="button" className="btn btn-primary" onClick={() => this.diceThrow() }>Rzuć</button>
             </div>
         )
     }
 
     diceNumbers(number, index) {
         return (
-            <button key={index} onClick={this.saveNumber(index)} className="btn btn-danger">{number}</button>
+            <button key={index} className="btn btn-danger">{number}</button>
         )
     }
 
@@ -53,6 +51,10 @@ class Dice extends Component {
                     diceTemp.push(dTemp);
                 }
             } else {
+                for (let i = 0; i < 5; i++) {
+                    let dTemp = Math.floor(Math.random() * 6) + 1;
+                    diceTemp.push(dTemp);
+                }
                 this.setState({diceBlocked: true});
                 // currentPlayer.diceThrows = 0;
                 // currentPlayer.nowPlay = false;
