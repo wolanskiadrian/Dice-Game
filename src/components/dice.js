@@ -10,11 +10,13 @@ class Dice extends Component {
 
         this.state = {
             dice: [],
-            diceBlocked: false
+            diceBlocked: false,
         };
 
         this.currentPlayerNo = 0;
+        this.diceClicked = [];
     }
+
 
     // componentWillMount() {
     //     this.diceThrow();
@@ -23,7 +25,7 @@ class Dice extends Component {
     render() {
         return (
             <div>
-                <div className="btn-group">{this.state.dice.map( this.diceNumbers )}</div>
+                <div className="btn-group">{this.state.dice.map( this.diceNumbers.bind(this) )}</div>
                 <button disabled={this.state.diceBlocked} type="button" className="btn btn-primary" onClick={() => this.diceThrow() }>Rzuć</button>
             </div>
         )
@@ -31,8 +33,16 @@ class Dice extends Component {
 
     diceNumbers(number, index) {
         return (
-            <button key={index} className="btn btn-danger">{number}</button>
+            <button key={index} className="btn btn-default" onClick={() => this.setClicked(index)} >{number}</button>
         )
+    }
+
+    setClicked(index) {
+        if(_.indexOf(this.diceClicked, index) === -1) {
+            this.diceClicked.push(index);
+        }
+
+        console.log(this.diceClicked);
     }
 
     diceThrow() {
@@ -46,9 +56,14 @@ class Dice extends Component {
 
             if(currentPlayer.diceThrows < 2) {
                 currentPlayer.diceThrows++;
-                for (let i = 0; i < 5; i++) {
-                    let dTemp = Math.floor(Math.random() * 6) + 1;
-                    diceTemp.push(dTemp);
+
+                if(this.diceClicked.length === 0) {
+                    for (let i = 0; i < 5; i++) {
+                        let dTemp = Math.floor(Math.random() * 6) + 1;
+                        diceTemp.push(dTemp);
+                    }
+                } else {
+                    //TODO: logic for save dice results of this.diceClicked
                 }
             } else {
                 for (let i = 0; i < 5; i++) {
