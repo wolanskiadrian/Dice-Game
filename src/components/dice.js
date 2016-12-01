@@ -25,7 +25,7 @@ class Dice extends Component {
     render() {
         return (
             <div>
-                <div className="btn-group">{this.state.dice.map( this.diceNumbers.bind(this) )}</div>
+                <div className="btn-group">{this.state.dice.map( this.diceNumbers.bind(this)) }</div>
                 <button disabled={this.state.diceBlocked} type="button" className="btn btn-primary" onClick={() => this.diceThrow() }>Rzuć</button>
             </div>
         )
@@ -33,13 +33,24 @@ class Dice extends Component {
 
     diceNumbers(number, index) {
         return (
-            <button key={index} className="btn btn-default" onClick={() => this.setClicked(index)} >{number}</button>
+            <button key={index} className="btn btn-default" onClick={() => this.setClicked(index, number)} >{number}</button>
         )
     }
 
-    setClicked(index) {
-        if(_.indexOf(this.diceClicked, index) === -1) {
-            this.diceClicked.push(index);
+    setClicked(index, score) {
+        if(this.diceClicked.length === 0) {
+            this.diceClicked.push({diceIndex: index, score: score});
+        } else {
+            let existingItem = _.find(this.diceClicked, function (item) {
+                return item.diceIndex === index;
+            });
+
+            if(_.isUndefined(existingItem)) {
+                this.diceClicked.push({diceIndex: index, score: score});
+            } else {
+                let existingIndex = _.indexOf(this.diceClicked, existingItem);
+                this.diceClicked.splice(existingIndex, 1);
+            }
         }
 
         console.log(this.diceClicked);
@@ -63,14 +74,40 @@ class Dice extends Component {
                         diceTemp.push(dTemp);
                     }
                 } else {
+                    for(let i = 0; i < 5 - this.diceClicked.length; i++) {
+                        let dTemp = Math.floor(Math.random() * 6) + 1;
+                        diceTemp.push(dTemp);
+                    }
+
+                    _.forEach(this.diceClicked, function (item) {
+                        diceTemp.splice(item.diceIndex, 0, item.score);
+                        console.log(diceTemp);
+                        diceTemp.join();
+                    });
+
                     //TODO: logic for save dice results of this.diceClicked
                 }
             } else {
-                for (let i = 0; i < 5; i++) {
-                    let dTemp = Math.floor(Math.random() * 6) + 1;
-                    diceTemp.push(dTemp);
+                if(this.diceClicked.length === 0) {
+                    for (let i = 0; i < 5; i++) {
+                        let dTemp = Math.floor(Math.random() * 6) + 1;
+                        diceTemp.push(dTemp);
+                    }
+                } else {
+                    for (let i = 0; i < 5 - this.diceClicked.length; i++) {
+                        let dTemp = Math.floor(Math.random() * 6) + 1;
+                        diceTemp.push(dTemp);
+                    }
+
+                    _.forEach(this.diceClicked, function (item) {
+                        diceTemp.splice(item.diceIndex, 0, item.score);
+                        console.log(diceTemp);
+                        diceTemp.join();
+                    });
                 }
+
                 this.setState({diceBlocked: true});
+
                 // currentPlayer.diceThrows = 0;
                 // currentPlayer.nowPlay = false;
                 //
