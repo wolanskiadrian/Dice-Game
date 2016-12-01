@@ -140,175 +140,223 @@ class Dice extends Component {
     }
 
     checkGameValues(diceValues) {
+        let currentPlayer = _.find(this.props.game, function (item) {
+            return item.nowPlay === true;
+        });
+        let currentPlayerIndex = _.indexOf(this.props.game, currentPlayer);
         let tempValues = {
-            jedynki: this.checkJedynki(diceValues),
-            dwojki: this.checkDwojki(diceValues),
-            trojki: this.checkTrojki(diceValues),
-            czworki: this.checkCzworki(diceValues),
-            piatki: this.checkPiatki(diceValues),
-            szostki: this.checkSzostki(diceValues),
-            trojka: this.checkTrojka(diceValues),
-            czworka: this.checkCzworka(diceValues),
-            full: this.checkFull(diceValues),
+            jedynki: this.checkJedynki(diceValues, this.props.game[currentPlayerIndex].jedynki),
+            dwojki: this.checkDwojki(diceValues, this.props.game[currentPlayerIndex].dwojki),
+            trojki: this.checkTrojki(diceValues, this.props.game[currentPlayerIndex].trojki),
+            czworki: this.checkCzworki(diceValues, this.props.game[currentPlayerIndex].czworki),
+            piatki: this.checkPiatki(diceValues, this.props.game[currentPlayerIndex].piatki),
+            szostki: this.checkSzostki(diceValues, this.props.game[currentPlayerIndex].szostki),
+            trojka: this.checkTrojka(diceValues, this.props.game[currentPlayerIndex].trojka),
+            czworka: this.checkCzworka(diceValues, this.props.game[currentPlayerIndex].czworka),
+            full: this.checkFull(diceValues, this.props.game[currentPlayerIndex].full),
             malys: 0,
             duzys: 0,
-            general: this.checkGeneral(diceValues),
-            szansa: this.checkSzansa(diceValues)
+            general: this.checkGeneral(diceValues, this.props.game[currentPlayerIndex].general),
+            szansa: this.checkSzansa(diceValues, this.props.game[currentPlayerIndex].szansa)
         };
 
         return tempValues;
     }
 
-    checkJedynki(diceValues) {
-        let result = 0;
+    checkJedynki(diceValues, score) {
+        if(score === null) {
+            let result = 0;
 
-        _.forEach(diceValues, function (v) {
-            if(v === 1){
-                result += 1;
-            }
-        });
+            _.forEach(diceValues, function (v) {
+                if (v === 1) {
+                    result += 1;
+                }
+            });
 
-        return result;
+            return result;
+        } else {
+            return score;
+        }
     }
 
-    checkDwojki(diceValues) {
-        let result = 0;
+    checkDwojki(diceValues, score) {
+        if(score === null) {
+            let result = 0;
 
-        _.forEach(diceValues, function (v) {
-            if(v === 2){
-                result += 2;
-            }
-        });
+            _.forEach(diceValues, function (v) {
+                if (v === 2) {
+                    result += 2;
+                }
+            });
 
-        return result;
+            return result;
+        } else {
+            return score;
+        }
     }
 
-    checkTrojki(diceValues) {
-        let result = 0;
+    checkTrojki(diceValues, score) {
+        if(score === null) {
+            let result = 0;
 
-        _.forEach(diceValues, function (v) {
-            if(v === 3){
-                result += 3;
-            }
-        });
+            _.forEach(diceValues, function (v) {
+                if (v === 3) {
+                    result += 3;
+                }
+            });
 
-        return result;
+            return result;
+        } else {
+            return score;
+        }
     }
 
     checkCzworki(diceValues) {
-        let result = 0;
+        if(score === null) {
+            let result = 0;
 
-        _.forEach(diceValues, function (v) {
-            if(v === 4){
-                result += 4;
-            }
-        });
+            _.forEach(diceValues, function (v) {
+                if (v === 4) {
+                    result += 4;
+                }
+            });
 
-        return result;
-    }
-
-    checkPiatki(diceValues) {
-        let result = 0;
-
-        _.forEach(diceValues, function (v) {
-            if(v === 5){
-                result += 5;
-            }
-        });
-
-        return result;
-    }
-
-    checkSzostki(diceValues) {
-        let result = 0;
-
-        _.forEach(diceValues, function (v) {
-            if(v === 6){
-                result += 6;
-            }
-        });
-
-        return result;
-    }
-
-    checkTrojka(diceValues) {
-        let newArray = _.clone(diceValues).sort();
-        let duplicates = this.checkDuplicates(newArray);
-        let result = 0;
-
-        _.forEach(duplicates, function (item) {
-            if(item === 3) {
-                _.forEach(newArray, function (v) {
-                    result += v;
-                });
-            }
-        });
-
-        return result;
-    }
-
-    checkCzworka(diceValues) {
-        let newArray = _.clone(diceValues).sort();
-        let duplicates = this.checkDuplicates(newArray);
-        let result = 0;
-
-        _.forEach(duplicates, function (item) {
-            if(item === 4) {
-                _.forEach(newArray, function (v) {
-                    result += v;
-                });
-            }
-        });
-
-        return result;
-    }
-
-    checkFull(diceValues) {
-        let newArray = _.clone(diceValues).sort();
-        let duplicates = this.checkDuplicates(newArray);
-        let goodTwo = false;
-        let goodThree = false;
-        let result = 0;
-
-        _.forEach(duplicates, function (item) {
-             if(item == 2) {
-                 goodTwo = true;
-             }
-
-             if(item == 3) {
-                 goodThree = true;
-             }
-        });
-
-        if(goodTwo && goodThree) {
-            result = 25;
+            return result;
+        } else {
+            return score;
         }
-
-        return result;
     }
 
-    checkGeneral(diceValues) {
-        let newArray = _.clone(diceValues).sort();
-        let duplicates = this.checkDuplicates(newArray);
-        let result = 0;
+    checkPiatki(diceValues, score) {
+        if(score === null) {
+            let result = 0;
 
-        _.forEach(duplicates, function (item) {
-            if(item === 5) {
-                result = 50;
+            _.forEach(diceValues, function (v) {
+                if (v === 5) {
+                    result += 5;
+                }
+            });
+
+            return result;
+        } else {
+            return score;
+        }
+    }
+
+    checkSzostki(diceValues, score) {
+        if(score === null) {
+            let result = 0;
+
+            _.forEach(diceValues, function (v) {
+                if (v === 6) {
+                    result += 6;
+                }
+            });
+
+            return result;
+        } else {
+            return score;
+        }
+    }
+
+    checkTrojka(diceValues, score) {
+        if(score === null) {
+            let newArray = _.clone(diceValues).sort();
+            let duplicates = this.checkDuplicates(newArray);
+            let result = 0;
+
+            _.forEach(duplicates, function (item) {
+                if (item === 3) {
+                    _.forEach(newArray, function (v) {
+                        result += v;
+                    });
+                }
+            });
+
+            return result;
+        } else {
+            return score;
+        }
+    }
+
+    checkCzworka(diceValues, score) {
+        if(score === null) {
+            let newArray = _.clone(diceValues).sort();
+            let duplicates = this.checkDuplicates(newArray);
+            let result = 0;
+
+            _.forEach(duplicates, function (item) {
+                if (item === 4) {
+                    _.forEach(newArray, function (v) {
+                        result += v;
+                    });
+                }
+            });
+
+            return result;
+        } else {
+            return score;
+        }
+    }
+
+    checkFull(diceValues, score) {
+        if(score === null) {
+            let newArray = _.clone(diceValues).sort();
+            let duplicates = this.checkDuplicates(newArray);
+            let goodTwo = false;
+            let goodThree = false;
+            let result = 0;
+
+            _.forEach(duplicates, function (item) {
+                if (item == 2) {
+                    goodTwo = true;
+                }
+
+                if (item == 3) {
+                    goodThree = true;
+                }
+            });
+
+            if (goodTwo && goodThree) {
+                result = 25;
             }
-        });
 
-        return result;
+            return result;
+        } else {
+            return score;
+        }
     }
 
-    checkSzansa(diceValues) {
-        let result = 0;
+    checkGeneral(diceValues, score) {
+        if(score === null) {
+            let newArray = _.clone(diceValues).sort();
+            let duplicates = this.checkDuplicates(newArray);
+            let result = 0;
 
-        _.forEach(diceValues, function (item) {
-            result += item;
-        });
+            _.forEach(duplicates, function (item) {
+                if (item === 5) {
+                    result = 50;
+                }
+            });
 
-        return result;
+            return result;
+        } else {
+            return score;
+        }
+    }
+
+    checkSzansa(diceValues, score) {
+        if(score === null) {
+            let result = 0;
+
+            _.forEach(diceValues, function (item) {
+                result += item;
+            });
+
+            return result;
+        } else {
+            return score;
+        }
     }
 
     checkDuplicates(array) {
