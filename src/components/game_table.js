@@ -67,7 +67,9 @@ class GameTable extends Component {
             malys: null,
             duzys: null,
             general: null,
-            suma: null,
+            szansa: null,
+            suma: 0,
+            premia: 0,
             nowPlay: true,
             diceThrows: 0
         };
@@ -168,6 +170,10 @@ class GameTable extends Component {
             default:
                 return false;
         }
+
+        this.checkBonus(index);
+        this.checkSum(index);
+        //TODO: logic for change player, reset dice
     }
 
     getRows(players, dice, names, game) {
@@ -198,7 +204,7 @@ class GameTable extends Component {
                         <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.szostki, i, 'szostki')} >{dice.szostki}</button>
                     </th>
                     <th>
-                        premia
+                        <div>{game[i].premia}</div>
                     </th>
                     <th>
                         <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.trojka, i, 'trojka')} >{dice.trojka}</button>
@@ -221,12 +227,73 @@ class GameTable extends Component {
                     <th>
                         <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.szansa, i, 'szansa')} >{dice.szansa}</button>
                     </th>
-                    <th>SUMA</th>
+                    <th><div>{game[i].suma}</div></th>
                 </tr>
             );
         }
 
         return rows;
+    }
+
+    checkSum(index) {
+        let gameTemp = _.clone(this.state.game);
+        gameTemp[index].suma = gameTemp[index].jedynki +
+            gameTemp[index].dwojki +
+            gameTemp[index].trojki +
+            gameTemp[index].czworki +
+            gameTemp[index].piatki +
+            gameTemp[index].szostki +
+            gameTemp[index].trojka +
+            gameTemp[index].czworka +
+            gameTemp[index].full +
+            gameTemp[index].malys +
+            gameTemp[index].duzys +
+            gameTemp[index].general +
+            gameTemp[index].szansa +
+            gameTemp[index].premia;
+
+        this.setState({game: gameTemp});
+    }
+
+    checkBonus(index) {
+        let gameTemp = _.clone(this.state.game);
+
+        let checkSchool = function (currentPlayer) {
+            if(
+                currentPlayer.jedynki !== null &&
+                currentPlayer.dwojki !== null &&
+                currentPlayer.trojki !== null &&
+                currentPlayer.czworki !== null &&
+                currentPlayer.piatki !== null &&
+                currentPlayer.szostki !== null
+            ) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        let checkSchoolScore = function (currentPlayer) {
+            if(
+                currentPlayer.jedynki +
+                currentPlayer.dwojki +
+                currentPlayer.trojki +
+                currentPlayer.czworki +
+                currentPlayer.piatki +
+                currentPlayer.szostki >= 63
+            ) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        if(checkSchool(gameTemp[index])) {
+            if(checkSchoolScore(gameTemp[index])) {
+                gameTemp[index].premia = 35;
+                this.setState({game: gameTemp});
+            }
+        }
     }
 }
 

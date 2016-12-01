@@ -211,7 +211,7 @@ class Dice extends Component {
         }
     }
 
-    checkCzworki(diceValues) {
+    checkCzworki(diceValues, score) {
         if(score === null) {
             let result = 0;
 
