@@ -10,36 +10,43 @@ class Dice extends Component {
 
         this.state = {
             dice: [],
-            diceBlocked: false,
+            diceBlocked: false
         };
 
         this.currentPlayerNo = 0;
         this.diceClicked = [];
     }
 
-
-    // componentWillMount() {
-    //     this.diceThrow();
-    // }
-
     render() {
+        const throwDiceStyle = {
+            marginLeft: 20 + 'px'
+        };
+
         return (
             <div>
                 <div className="btn-group">{this.state.dice.map( this.diceNumbers.bind(this)) }</div>
-                <button disabled={this.state.diceBlocked} type="button" className="btn btn-primary" onClick={() => this.diceThrow() }>Rzuć</button>
+                <button
+                    disabled={this.state.diceBlocked}
+                    type="button" className="btn btn-primary"
+                    onClick={() => this.diceThrow() }
+                    style={throwDiceStyle}>
+                        Rzuć
+                </button>
             </div>
         )
     }
 
     diceNumbers(number, index) {
         return (
-            <button key={index} className="btn btn-default" onClick={() => this.setClicked(index, number)} >{number}</button>
+            <button key={index} className="btn btn-default" onClick={event => this.setClicked(index, number, event.target)} >{number}</button>
         )
     }
 
-    setClicked(index, score) {
+    setClicked(index, score, buttonClass) {
+
         if(this.diceClicked.length === 0) {
             this.diceClicked.push({diceIndex: index, score: score});
+            buttonClass.className = 'btn btn-primary';
         } else {
             let existingItem = _.find(this.diceClicked, function (item) {
                 return item.diceIndex === index;
@@ -47,13 +54,13 @@ class Dice extends Component {
 
             if(_.isUndefined(existingItem)) {
                 this.diceClicked.push({diceIndex: index, score: score});
+                buttonClass.className = 'btn btn-primary';
             } else {
                 let existingIndex = _.indexOf(this.diceClicked, existingItem);
                 this.diceClicked.splice(existingIndex, 1);
+                buttonClass.className = 'btn btn-default';
             }
         }
-
-        console.log(this.diceClicked);
     }
 
     diceThrow() {
