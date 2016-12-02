@@ -72,47 +72,26 @@ class Dice extends Component {
                 return player.nowPlay == true;
             });
 
-            if(currentPlayer.diceThrows < 2) {
-                currentPlayer.diceThrows++;
-
-                if(this.diceClicked.length === 0) {
-                    for (let i = 0; i < 5; i++) {
-                        let dTemp = Math.floor(Math.random() * 6) + 1;
-                        diceTemp.push(dTemp);
-                    }
-                } else {
-                    for(let i = 0; i < 5 - this.diceClicked.length; i++) {
-                        let dTemp = Math.floor(Math.random() * 6) + 1;
-                        diceTemp.push(dTemp);
-                    }
-
-                    _.forEach(this.diceClicked, function (item) {
-                        diceTemp.splice(item.diceIndex, 0, item.score);
-                        console.log(diceTemp);
-                        diceTemp.join();
-                    });
-
-                    //TODO: logic for save dice results of this.diceClicked
+            if(this.diceClicked.length === 0) {
+                for (let i = 0; i < 5; i++) {
+                    let dTemp = Math.floor(Math.random() * 6) + 1;
+                    diceTemp.push(dTemp);
                 }
             } else {
-                if(this.diceClicked.length === 0) {
-                    for (let i = 0; i < 5; i++) {
-                        let dTemp = Math.floor(Math.random() * 6) + 1;
-                        diceTemp.push(dTemp);
-                    }
-                } else {
-                    for (let i = 0; i < 5 - this.diceClicked.length; i++) {
-                        let dTemp = Math.floor(Math.random() * 6) + 1;
-                        diceTemp.push(dTemp);
-                    }
-
-                    _.forEach(this.diceClicked, function (item) {
-                        diceTemp.splice(item.diceIndex, 0, item.score);
-                        console.log(diceTemp);
-                        diceTemp.join();
-                    });
+                for(let i = 0; i < 5 - this.diceClicked.length; i++) {
+                    let dTemp = Math.floor(Math.random() * 6) + 1;
+                    diceTemp.push(dTemp);
                 }
 
+                _.forEach(this.diceClicked, function (item) {
+                    diceTemp.splice(item.diceIndex, 0, item.score);
+                    console.log(diceTemp);
+                });
+            }
+
+            if(currentPlayer.diceThrows < 2) {
+                currentPlayer.diceThrows++;
+            } else {
                 this.setState({diceBlocked: true});
 
                 // currentPlayer.diceThrows = 0;

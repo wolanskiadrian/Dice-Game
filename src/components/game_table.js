@@ -173,7 +173,8 @@ class GameTable extends Component {
 
         this.checkBonus(index);
         this.checkSum(index);
-        //TODO: logic for change player, reset dice
+
+        //TODO: logic for change player, reset dice, end game state
     }
 
     getRows(players, dice, names, game) {
@@ -189,43 +190,43 @@ class GameTable extends Component {
                         <button type="button" disabled={!game[i].nowPlay || game[i].jedynki !== null} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.jedynki, i, 'jedynki')} >{dice.jedynki}</button>
                     </th>
                     <th>
-                        <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.dwojki, i, 'dwojki')} >{dice.dwojki}</button>
+                        <button type="button" disabled={!game[i].nowPlay || game[i].dwojki !== null} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.dwojki, i, 'dwojki')} >{dice.dwojki}</button>
                     </th>
                     <th>
-                        <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.trojki, i, 'trojki')} >{dice.trojki}</button>
+                        <button type="button" disabled={!game[i].nowPlay || game[i].trojki !== null} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.trojki, i, 'trojki')} >{dice.trojki}</button>
                     </th>
                     <th>
-                        <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.czworki, i, 'czworki')} >{dice.czworki}</button>
+                        <button type="button" disabled={!game[i].nowPlay || game[i].czworki !== null} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.czworki, i, 'czworki')} >{dice.czworki}</button>
                     </th>
                     <th>
-                        <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.piatki, i, 'piatki')} >{dice.piatki}</button>
+                        <button type="button" disabled={!game[i].nowPlay || game[i].piatki !== null} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.piatki, i, 'piatki')} >{dice.piatki}</button>
                     </th>
                     <th>
-                        <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.szostki, i, 'szostki')} >{dice.szostki}</button>
+                        <button type="button" disabled={!game[i].nowPlay || game[i].szostki !== null} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.szostki, i, 'szostki')} >{dice.szostki}</button>
                     </th>
                     <th>
                         <div>{game[i].premia}</div>
                     </th>
                     <th>
-                        <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.trojka, i, 'trojka')} >{dice.trojka}</button>
+                        <button type="button" disabled={!game[i].nowPlay || game[i].trojka !== null} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.trojka, i, 'trojka')} >{dice.trojka}</button>
                     </th>
                     <th>
-                        <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.czworka, i, 'czworka')} >{dice.czworka}</button>
+                        <button type="button" disabled={!game[i].nowPlay || game[i].czworka !== null} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.czworka, i, 'czworka')} >{dice.czworka}</button>
                     </th>
                     <th>
-                        <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.full, i, 'full')} >{dice.full}</button>
+                        <button type="button" disabled={!game[i].nowPlay || game[i].full !== null} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.full, i, 'full')} >{dice.full}</button>
                     </th>
                     <th>
-                        <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.malys, i, 'mstrit')} >{dice.malys}</button>
+                        <button type="button" disabled={!game[i].nowPlay || game[i].malys !== null} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.malys, i, 'mstrit')} >{dice.malys}</button>
                     </th>
                     <th>
-                        <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.duzys, i, 'dstrit')} >{dice.duzys}</button>
+                        <button type="button" disabled={!game[i].nowPlay || game[i].duzys !== null} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.duzys, i, 'dstrit')} >{dice.duzys}</button>
                     </th>
                     <th>
-                        <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.general, i, 'general')} >{dice.general}</button>
+                        <button type="button" disabled={!game[i].nowPlay || game[i].general !== null} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.general, i, 'general')} >{dice.general}</button>
                     </th>
                     <th>
-                        <button type="button" disabled={!game[i].nowPlay} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.szansa, i, 'szansa')} >{dice.szansa}</button>
+                        <button type="button" disabled={!game[i].nowPlay || game[i].szansa !== null} className={game[i].nowPlay ? 'btn btn-primary' : 'btn btn-default'} onClick={() => this.saveScore(dice.szansa, i, 'szansa')} >{dice.szansa}</button>
                     </th>
                     <th><div>{game[i].suma}</div></th>
                 </tr>
