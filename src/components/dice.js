@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { diceCatch } from '../actions/index';
+import { diceBlock, resetDices } from '../actions/index';
 import { bindActionCreators } from 'redux';
 
 class Dice extends Component {
@@ -10,7 +11,7 @@ class Dice extends Component {
 
         this.state = {
             dice: [],
-            diceBlocked: false
+            // diceBlocked: false
         };
 
         this.currentPlayerNo = 0;
@@ -22,11 +23,14 @@ class Dice extends Component {
             marginLeft: 20 + 'px'
         };
 
+        console.log(this.props);
+        console.log('State of dice.js: ' , this.state);
+
         return (
             <div>
                 <div className="btn-group">{this.state.dice.map( this.diceNumbers.bind(this)) }</div>
                 <button
-                    disabled={this.state.diceBlocked}
+                    disabled={this.props.diceBlocked}
                     type="button" className="btn btn-primary"
                     onClick={() => this.diceThrow() }
                     style={throwDiceStyle}>
@@ -35,6 +39,15 @@ class Dice extends Component {
             </div>
         )
     }
+
+    // componentWillReceiveProps(props) {
+    //     console.log(props);
+    //     console.log(this.state.dice);
+    //
+    //     // if(props.dices !== this.state.dice) {
+    //     //     this.setState({dice: []});
+    //     // }
+    // }
 
     diceNumbers(number, index) {
         return (
@@ -85,37 +98,23 @@ class Dice extends Component {
 
                 _.forEach(this.diceClicked, function (item) {
                     diceTemp.splice(item.diceIndex, 0, item.score);
-                    console.log(diceTemp);
                 });
             }
 
             if(currentPlayer.diceThrows < 2) {
                 currentPlayer.diceThrows++;
             } else {
-                this.setState({diceBlocked: true});
-
-                // currentPlayer.diceThrows = 0;
-                // currentPlayer.nowPlay = false;
-                //
-                // if(this.currentPlayerNo === this.props.game.length - 1) {
-                //     console.log(this.props.game[0]);
-                //     this.props.game[0].nowPlay = true;
-                //     this.currentPlayerNo = 0;
-                // } else {
-                //     this.currentPlayerNo++;
-                //     this.props.game[this.currentPlayerNo].nowPlay = true;
-                // }
-                //
-                // for (let i = 0; i < 5; i++) {
-                //     let dTemp = Math.floor(Math.random() * 6) + 1;
-                //     diceTemp.push(dTemp);
-                // }
+                // this.setState({diceBlocked: true});
+                this.props.diceBlock(true);
             }
         }
 
         this.setState({dice: diceTemp});
         throwValues = this.checkGameValues(diceTemp);
+        this.props.resetDices(diceTemp);
         this.props.diceCatch(throwValues);
+
+        // console.log(this.props);
     }
 
     checkGameValues(diceValues) {
@@ -365,12 +364,18 @@ class Dice extends Component {
 function mapStateToProps(state) {
     return {
         dice: state.dice,
-        game: state.game
+        game: state.game,
+        diceBlocked: state.diceBlocked,
+        dices: state.dices
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({diceCatch: diceCatch}, dispatch)
+    return bindActionCreators({
+        diceCatch: diceCatch,
+        diceBlock: diceBlock,
+        resetDices: resetDices,
+    }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dice);

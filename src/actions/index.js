@@ -18,3 +18,24 @@ export function setGameObject(gameArray) {
         payload: gameArray
     }
 }
+
+export function diceBlock(status) {
+    return {
+        type: 'CHANGE_DICE_STATUS',
+        payload: status
+    }
+}
+
+export function resetDice(diceArray) {
+    return {
+        type: 'DICE_RESET',
+        payload: diceArray
+    }
+}
+
+export function resetDices(dices) {
+    return {
+        type: 'DICES_RESET',
+        payload: dices
+    }
+}
