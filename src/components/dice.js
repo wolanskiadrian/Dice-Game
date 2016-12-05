@@ -14,7 +14,6 @@ class Dice extends Component {
             // diceBlocked: false
         };
 
-        this.currentPlayerNo = 0;
         this.diceClicked = [];
     }
 
@@ -22,9 +21,6 @@ class Dice extends Component {
         const throwDiceStyle = {
             marginLeft: 20 + 'px'
         };
-
-        console.log(this.props);
-        console.log('State of dice.js: ' , this.state);
 
         return (
             <div>
@@ -40,14 +36,12 @@ class Dice extends Component {
         )
     }
 
-    // componentWillReceiveProps(props) {
-    //     console.log(props);
-    //     console.log(this.state.dice);
-    //
-    //     // if(props.dices !== this.state.dice) {
-    //     //     this.setState({dice: []});
-    //     // }
-    // }
+    componentWillReceiveProps(props) {
+        if(props.dices.length !== 5) {
+            this.setState({dice: []});
+            this.diceClicked = [];
+        }
+    }
 
     diceNumbers(number, index) {
         return (
