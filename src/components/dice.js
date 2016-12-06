@@ -98,7 +98,6 @@ class Dice extends Component {
             if(currentPlayer.diceThrows < 2) {
                 currentPlayer.diceThrows++;
             } else {
-                // this.setState({diceBlocked: true});
                 this.props.diceBlock(true);
             }
         }
@@ -107,8 +106,6 @@ class Dice extends Component {
         throwValues = this.checkGameValues(diceTemp);
         this.props.resetDices(diceTemp);
         this.props.diceCatch(throwValues);
-
-        // console.log(this.props);
     }
 
     checkGameValues(diceValues) {
@@ -126,8 +123,8 @@ class Dice extends Component {
             trojka: this.checkTrojka(diceValues, this.props.game[currentPlayerIndex].trojka),
             czworka: this.checkCzworka(diceValues, this.props.game[currentPlayerIndex].czworka),
             full: this.checkFull(diceValues, this.props.game[currentPlayerIndex].full),
-            malys: 0,
-            duzys: 0,
+            malys: this.checkMStrit(diceValues, this.props.game[currentPlayerIndex].malys),
+            duzys: this.checkDStrit(diceValues, this.props.game[currentPlayerIndex].duzys),
             general: this.checkGeneral(diceValues, this.props.game[currentPlayerIndex].general),
             szansa: this.checkSzansa(diceValues, this.props.game[currentPlayerIndex].szansa)
         };
@@ -291,6 +288,55 @@ class Dice extends Component {
 
             if (goodTwo && goodThree) {
                 result = 25;
+            }
+
+            return result;
+        } else {
+            return score;
+        }
+    }
+
+    checkMStrit(diceValues, score) {
+        if(score === null) {
+            let result = 0;
+            let newArray = _.clone(diceValues).sort();
+            let duplicates = this.checkDuplicates(newArray);
+            let duplicatedItem = _.find(duplicates, function (item) {
+                return item > 1;
+            });
+
+            if(_.isUndefined(duplicatedItem)) {
+                if(newArray[0] + 3 === newArray[3] || newArray[1] + 3 === newArray[4]) {
+                    result = 30;
+                }
+            } else {
+                newArray = _.uniq(newArray);
+                if(newArray.length == 4) {
+                    if(newArray[0] + 3 === newArray[3]) {
+                        result = 30;
+                    }
+                }
+            }
+
+            return result;
+        } else {
+            return score;
+        }
+    }
+
+    checkDStrit(diceValues, score) {
+        if(score === null) {
+            let result = 0;
+            let newArray = _.clone(diceValues).sort();
+            let duplicates = this.checkDuplicates(newArray);
+            let duplicatedItem = _.find(duplicates, function (item) {
+                return item > 1;
+            });
+
+            if(_.isUndefined(duplicatedItem)) {
+                if(newArray[0] + 4 === newArray[4]) {
+                    result = 40;
+                }
             }
 
             return result;

@@ -16,7 +16,7 @@ class GameTable extends Component {
     };
 
     componentWillMount() {
-        this.setState({game: this.makePlayersGameObjects(this.props.players)});
+        this.setState({game: this.makePlayersGameObjects(this.props.players, this.props.playersNames)});
         // this.makePlayersGameObjects(this.props.players);
     }
 
@@ -51,7 +51,7 @@ class GameTable extends Component {
         )
     }
 
-    makePlayersGameObjects(playersNo) {
+    makePlayersGameObjects(playersNo, playersNames) {
         let game = [];
         let playerGameObject = {
             jedynki: null,
@@ -71,13 +71,18 @@ class GameTable extends Component {
             suma: 0,
             premia: 0,
             nowPlay: true,
-            diceThrows: 0
+            diceThrows: 0,
+            name: null
         };
 
         for(let i = 0; i < playersNo; i++) {
             var copy = _.clone(playerGameObject, true);
             if(i !=- 0) copy.nowPlay = false;
             game.push(copy);
+        }
+
+        for(let i = 0; i < game.length; i++) {
+            game[i].name = playersNames[i];
         }
 
         this.props.setGameObject(game);
@@ -174,8 +179,6 @@ class GameTable extends Component {
         this.checkBonus(index);
         this.checkSum(index);
         this.checkGameStatus(index);
-
-        //TODO: logic for change player, reset dice, end game state
     }
 
     checkGameStatus(index) {
@@ -204,27 +207,22 @@ class GameTable extends Component {
     }
 
     checkEndGame() {
-        _.forEach(this.state.game, function (players) {
-            if(
-                players.jedynki !== null &&
-                players.dwojki !== null &&
-                players.trojki !== null &&
-                players.czworki !== null &&
-                players.piatki !== null &&
-                players.szostki !== null &&
-                players.trojka !== null &&
-                players.czworka !== null &&
-                players.full !== null &&
-                players.malys !== null &&
-                players.duzys !== null &&
-                players.general !== null &&
-                players.szansa !== null
-            ) {
-                return true;
-            } else {
-                return false;
-            }
-        })
+        let gameState = null;
+        let gameWinner = null;
+
+        _.forEach(this.state.game, function (item) {
+            gameState = _.find(item, function (playerItem) {
+                 return playerItem == null;
+             });
+        });
+
+        if(_.isUndefined(gameState)) {
+            gameWinner = _.max(this.state.game, function (players) {
+                return players.suma;
+            });
+
+            alert('Zwyciężył: ' + gameWinner.name);
+        }
     }
 
     getRows(players, dice, names, game) {
